@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 This is a note management application built using **NestJS** for the backend and **Next.js** for the frontend. Users can register, log in, create, edit, and delete notes. Categories can be assigned to notes, and filtering by categories was planned but not implemented due to time constraints.
 
@@ -8,9 +6,7 @@ This is a note management application built using **NestJS** for the backend and
 ### Prerequisites
 
 Make sure you have the following installed:
-=======
-=======
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
+
 # Note-Management-System
 This is a **Note Management System** built using **NestJS** for the backend and **Next.js**.
 
@@ -53,16 +49,12 @@ This is a **Note Management System** built using **NestJS** for the backend and 
 ### Prerequisites
 
 Ensure that you have the following installed:
-<<<<<<< HEAD
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
-=======
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
+
 
 - **Node.js** (v22.13.0)
 - **NestJS** (v11.0.5)
 - **MySQL** (v8.0.41)
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 - **NPM** (For installing dependencies)
 - **Next.js** (v15.2.1)
 
@@ -124,9 +116,7 @@ Improvements
 The backend is structured with good practices and follows the Service Layer architecture.
 Categories were implemented as an entity, allowing for future expansion (such as adding images or other properties), though it may have been simpler to implement as a string.
 More features and improvements could have been added, but due to time constraints, I couldn't dedicate as much time to this project as I would have liked.
-=======
-=======
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
+
 - **Next.js** (v15.2.1)
   
 To check your versions:
@@ -136,7 +126,3 @@ node -v      # v22.13.0
 nest -v      # v11.0.5
 npm view next version  # v15.2.1
 mysql --version  # v8.0.41
-<<<<<<< HEAD
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
-=======
->>>>>>> 87f140c4db6f99ea641cf4cef1f1363ac58a457b
