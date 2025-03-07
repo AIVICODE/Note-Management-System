@@ -104,18 +104,7 @@ bash-->
 npm run dev
 The frontend will start on http://localhost:3001.
 
-Notes about the Project
-Categories: Categories are linked to notes. However, filtering by categories was not implemented due to time constraints.
-Session & Registration: You need to register first before logging in, as there are no preset passwords. The passwords are stored as hashed values.
-Potential Issues: Sometimes, localhost may cause issues depending on your network configuration. If you experience problems, you may need to adjust routes in the main.ts file (backend) to use network routes instead of localhost.
-Known Issues
-Category Assignment Bug: Currently, categories can only be assigned while editing a note. When creating a new note, it is not possible to assign a category.
-Aesthetic Issues on the Frontend: I focused mainly on structuring the backend following best practices and applying what I have learned, which led to some aesthetic issues on the frontend.
-Category Filtering: Due to time limitations, the feature for filtering notes by category was not fully implemented.
-Improvements
-The backend is structured with good practices and follows the Service Layer architecture.
-Categories were implemented as an entity, allowing for future expansion (such as adding images or other properties), though it may have been simpler to implement as a string.
-More features and improvements could have been added, but due to time constraints, I couldn't dedicate as much time to this project as I would have liked.
+
 
 - **Next.js** (v15.2.1)
   
