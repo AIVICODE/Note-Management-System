@@ -10,9 +10,6 @@ Make sure you have the following installed:
 # Note-Management-System
 This is a **Note Management System** built using **NestJS** for the backend and **Next.js**.
 
-
-# Note Management System
-
 ## Project Overview
 
 This is a **Note Management System** built using **NestJS** for the backend and **Next.js** for the frontend. The application allows users to register, log in, create, edit, and delete notes, as well as manage categories. It supports basic CRUD operations for notes and categories, though some features (like category filtering) were not fully implemented due to time constraints.
