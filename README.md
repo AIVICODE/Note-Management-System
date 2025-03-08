@@ -35,11 +35,6 @@ This is a **Note Management System** built using **NestJS** for the backend and 
   - **Next.js**: A React-based framework for building modern web applications with server-side rendering.
   - **CSS/HTML**: Basic styling for the frontend interface.
 
-### Features Not Fully Implemented
-
-- **Category Filtering**: The feature to filter notes by category was planned but not implemented due to time constraints.
-- **Category Assignment Bug**: Currently, categories can only be assigned when editing a note, not during creation.
-- **Frontend Aesthetics**: While the frontend is functional, I focused more on backend architecture and practices, which led to less attention on frontend aesthetics.
 
 ## Setup and Installation
 
