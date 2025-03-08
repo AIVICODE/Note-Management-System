@@ -1,26 +1,58 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import useToast from "../../components/ui/use-toast"
 import { Button } from "../../components/ui/button"
-import { getAllCategories } from "../../services/noteservice"
-import { Plus, X } from "lucide-react"
+import {
+  getAllNotes,
+  updateNoteTitle,
+  updateNoteContent,
+  getAllCategories,
+  removeCategoryFromNote,
+} from "../../services/noteservice"
+import { ArrowLeft, Plus, X } from "lucide-react"
 import { Category } from "../../types/category"
-import { Note } from "../../types/notes"
 import api from "../../services/api"
 
-export default function CreateNotePage() {
-  const [title, setTitle] = useState("Untitled")
-  const [content, setContent] = useState("Empty")
+export default function EditNotePage() {
+  const [title, setTitle] = useState("")
+  const [content, setContent] = useState("")
   const [categories, setCategories] = useState<Category[]>([])
-  const [newCategory, setNewCategory] = useState<string>("")
   const [noteCategories, setNoteCategories] = useState<Category[]>([])
-  const [tempNoteId, setTempNoteId] = useState<number | null>(Date.now())  // 🟢 ID temporal para la nota
-  const { toast } = useToast()
+  const [newCategory, setNewCategory] = useState<string>("")
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const { toast } = useToast()
+  const noteId = searchParams.get("id")
 
-  // 🟢 Cargar Categorías
+  // 🟢 Cargar Nota y Categorías Asociadas
+  useEffect(() => {
+    const fetchNote = async () => {
+      if (noteId) {
+        try {
+          const notes = await getAllNotes()
+          const note = notes.find((n) => n.id === Number(noteId))
+          if (note) {
+            setTitle(note.title)
+            setContent(note.content)
+
+            const response = await api.get<Category[]>(`/categories/${noteId}/categories`)
+            const uniqueCategories = Array.from(new Set(response.data.map(cat => JSON.stringify(cat)))).map(cat => JSON.parse(cat))
+            setNoteCategories(uniqueCategories)
+          } else {
+            toast({ title: "Error", description: "Note not found.", variant: "destructive" })
+            router.push("/notes")
+          }
+        } catch {
+          toast({ title: "Error", description: "Failed to fetch note or categories.", variant: "destructive" })
+        }
+      }
+    }
+    fetchNote()
+  }, [noteId])
+
+  // 🟢 Cargar Todas las Categorías
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -49,48 +81,35 @@ export default function CreateNotePage() {
   }
 
   // 🟢 Asignar Categoría Existente
-  const handleAssignCategory = (category: Category) => {
+  const handleAssignCategory = async (category: Category) => {
+    if (!noteId) return
     if (!noteCategories.some((cat) => cat.id === category.id)) {
-      setNoteCategories((prev) => [...prev, category])
+      try {
+        await api.post(`/categories/${noteId}/categories`, { name: category.name })
+        setNoteCategories((prev) => [...prev, category])
+        toast({ title: "Success", description: `Category '${category.name}' assigned successfully!`, variant: "success" })
+      } catch {
+        toast({ title: "Error", description: `Failed to assign category '${category.name}'.`, variant: "destructive" })
+      }
     }
   }
 
   // 🟢 Eliminar Categoría
-  const handleRemoveCategory = (categoryName: string) => {
-    setNoteCategories((prev) => prev.filter((cat) => cat.name !== categoryName))
-  }
-
-  // 🟢 Guardar Nueva Nota
-  const handleCreateNote = async () => {
+  const handleRemoveCategory = async (categoryName: string) => {
+    if (!noteId) return
     try {
-      const response = await api.post<Note>("/notes", { title, content })
-
-      if (response.data && response.data.id) {
-        const noteId = response.data.id
-        setTempNoteId(noteId)  // 🟢 Actualizar el ID temporal con el real
-
-        // 🟢 Guardar las categorías asociadas
-        if (noteCategories.length > 0) {
-          await Promise.all(
-            noteCategories.map((cat) =>
-              api.post(`/categories/${noteId}/categories`, { name: cat.name })
-            )
-          )
-        }
-
-        toast({ title: "Success", description: "Note created successfully!", variant: "success" })
-        router.push("/notes")
-      } else {
-        throw new Error("Failed to create note.")
-      }
+      await removeCategoryFromNote(Number(noteId), categoryName)
+      setNoteCategories((prev) => prev.filter((cat) => cat.name !== categoryName))
+      toast({ title: "Success", description: "Category removed successfully!", variant: "success" })
     } catch {
-      toast({ title: "Error", description: "Failed to create note.", variant: "destructive" })
+      toast({ title: "Error", description: "Failed to remove category.", variant: "destructive" })
     }
   }
 
   return (
     <div className="container mx-auto px-4 py-10 bg-yellow-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Create a New Note 📝</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Edit Note 📝</h1>
+
       <input
         type="text"
         placeholder="Title"
@@ -145,8 +164,8 @@ export default function CreateNotePage() {
         ))}
       </div>
 
-      <Button onClick={handleCreateNote} className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 mb-4">
-        Create Note
+      <Button className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 mb-4">
+        Save Changes
       </Button>
     </div>
   )

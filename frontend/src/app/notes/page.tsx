@@ -140,7 +140,7 @@ export default function ViewNotesPage() {
           <Button
             className="bg-yellow-500 hover:bg-yellow-600 text-gray-800 gap-2"
             onClick={() => router.push("/notes/new")}
-          >
+            >
             <Plus size={20} />
             New Note
           </Button>
@@ -163,7 +163,7 @@ export default function ViewNotesPage() {
             <div
               key={note.id}
               className="border rounded-lg p-4 shadow bg-white transition-transform hover:scale-105"
-              onClick={() => router.push(`/notes/new?id=${note.id}`)}  // 🟢 Redirect to home
+              onClick={() => router.push(`/notes/edit?id=${note.id}`)}  // 🟢 Redirect to home
 
             >
               <h3 className="text-xl font-semibold mb-2 text-gray-800">{note.title}</h3>
